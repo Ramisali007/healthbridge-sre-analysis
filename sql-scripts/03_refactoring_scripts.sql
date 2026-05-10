@@ -116,13 +116,13 @@ ALTER TABLE billing ADD PRIMARY KEY (bill_no);
 -- Step 2: Remove orphan billing rows referencing non-existent patients
 DELETE FROM billing WHERE pid NOT IN (SELECT pid FROM pat_master);
 
--- Step 3: Add FK from billing to pat_master
+-- Step 3: Add PK to pat_master (it has none!)
+ALTER TABLE pat_master ADD PRIMARY KEY (pid);
+
+-- Step 4: Add FK from billing to pat_master
 ALTER TABLE billing
     ADD CONSTRAINT fk_billing_patient
     FOREIGN KEY (pid) REFERENCES pat_master(pid);
-
--- Step 4: Add PK to pat_master (it has none!)
-ALTER TABLE pat_master ADD PRIMARY KEY (pid);
 
 -- Step 5: Add PK to appointments
 ALTER TABLE appointments ADD PRIMARY KEY (appt_id);

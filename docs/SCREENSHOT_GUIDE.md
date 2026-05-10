@@ -321,28 +321,31 @@ Before taking any screenshots, make sure these are installed:
 3. Select parser: **java-parser** (or whichever Java parser is available)
 4. In the LEFT panel, paste this code:
    ```java
-   public User authenticate(String username, String password) {
-       if (username == null || username.isEmpty()) {
+   class Dummy {
+       public User authenticate(String username, String password) {
+           if (username == null || username.isEmpty()) {
+               return null;
+           }
+           if (password == null || password.isEmpty()) {
+               return null;
+           }
+           User user = userDAO.findById(username);
+           if (user != null && user.getPassword().equals(password) && user.isActive()) {
+               return user;
+           }
            return null;
        }
-       if (password == null || password.isEmpty()) {
-           return null;
-       }
-       User user = userDAO.findById(username);
-       if (user != null && user.getPassword().equals(password) && user.isActive()) {
-           return user;
-       }
-       return null;
    }
    ```
 5. In the RIGHT panel, expand the AST tree to at least 3 levels:
-   - Expand `MethodDeclaration` (authenticate)
-     - Expand `parameters`
-       - See `VariableDeclaration` nodes
-     - Expand `body` → `Block`
-       - See `IfStatement` nodes
-         - Expand `test` → `BinaryExpression`
-       - See `ReturnStatement` nodes
+   - Expand `CompilationUnit` → `ClassOrInterfaceDeclaration`
+     - Expand `MethodDeclaration` (authenticate)
+       - Expand `parameters`
+         - See `VariableDeclaration` nodes
+       - Expand `body` → `Block`
+         - See `IfStatement` nodes
+           - Expand `test` → `BinaryExpression`
+         - See `ReturnStatement` nodes
 
 ### What to capture:
 - Full browser window showing code on LEFT and expanded AST tree on RIGHT

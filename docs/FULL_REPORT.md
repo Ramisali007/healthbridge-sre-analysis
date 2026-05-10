@@ -112,6 +112,8 @@ cd migration && pip install mysql-connector-python && python migration_etl.py
 
 **GitHub URL:** https://github.com/ZainAftab-dev/hospital-management-system
 
+[Insert Screenshot 1: GitHub repository page]
+
 ### System Description
 
 The Hospital Management System (HMS) is a desktop application built using Java Swing that provides a comprehensive solution for managing hospital operations. The system features modules for patient registration and management, doctor scheduling, appointment booking, pharmacy/medicine inventory, billing and invoicing, user authentication, and PDF report generation. It follows a layered architecture with separate packages for UI (Swing panels), service logic, data access objects (DAOs), model entities, utility classes, interfaces, and custom exceptions.
@@ -177,7 +179,8 @@ sonar-scanner
 mysql --version
 ```
 
-> **Note:** Screenshots of each tool with version numbers must be captured during your live setup and inserted into the PDF report.
+[Insert Screenshot 2: docker --version terminal output]
+[Insert Screenshot 6: mysql --version terminal output]
 
 ---
 
@@ -200,8 +203,9 @@ sonar.login=admin
 sonar.password=admin
 ```
 
-> **Insert:** Screenshot of SonarScanner terminal output showing BUILD SUCCESS  
-> **Insert:** Screenshot of SonarQube project overview dashboard
+[Insert Screenshot 4: SonarScanner terminal BUILD SUCCESS]
+[Insert Screenshot 3: SonarQube dashboard at localhost:9000]
+[Insert Screenshot 5: SonarQube project overview with metrics]
 
 ### Metrics Table
 
@@ -431,7 +435,7 @@ The external behaviour is unchanged — the same JLabel pairs with the same font
 
 ### Dependency Graph
 
-> **Insert:** Draw.io dependency diagram here showing all 6 classes as nodes with directed arrows for dependencies. DashboardFrame should be in the center with 9 outgoing arrows. FileBasedDAO should be at the bottom with 4 incoming arrows.
+[Insert Screenshot 9: Draw.io dependency diagram]
 
 ```
 [Draw.io Diagram Description]
@@ -576,7 +580,7 @@ print(output)
 | 13 | `return result` | | Returns success string | login() completes |
 | 14 | `print(output)` | output="SUCCESS: Welcome, Administrator (ADMIN)" | | Output printed to console |
 
-> **Insert:** Python Tutor screenshot at **Step 9** — the moment the conditional `if user["password"] == password and user["active"]` is evaluated. The frame panel should show: `username="admin"`, `password="admin"`, `user={"password": "admin", ...}`.
+[Insert Screenshot 8: Python Tutor at Step 9]
 
 ### Branch Analysis
 
@@ -626,6 +630,8 @@ At Step 9, the conditional `user["password"] == password and user["active"]` eva
 
 > **Highlight the path taken in D1** (Steps 1→14) with a **blue/bold border** in Draw.io.
 
+[Insert Screenshot 10: Draw.io CFG diagram]
+
 ### CFG Analysis
 
 **(1) Independent Paths:**
@@ -656,7 +662,7 @@ Replace the two null/empty checks in `authenticate()` (D3 and D4) with a single 
 - **Parser:** Java (select "java" language)
 - **Code loaded:** The `authenticate()` method from UserService.java
 
-> **Insert:** Screenshot of AST Explorer with the tree expanded to at least 3 levels.
+[Insert Screenshot 11: AST Explorer with 3-level expansion]
 
 ### Node Type Annotations
 
@@ -1009,7 +1015,7 @@ Migration complete.
 ============================================================
 ```
 
-> **Insert:** Screenshot of terminal showing this migration output.
+[Insert Screenshot 13: Migration ETL terminal output]
 
 ---
 
@@ -1044,7 +1050,7 @@ WHERE p.patient_id IS NULL;
 | V3 — Valid statuses | P, C, X, H, R only | P, C, X, H, R | **PASS** | N/A |
 | V4 — No orphans | 0 | 0 | **PASS** | N/A |
 
-> **Insert:** Screenshot of MySQL terminal showing each query result.
+[Insert Screenshot 7: MySQL terminal showing V1–V4 validation query results]
 
 ### Prisma Integration
 
@@ -1059,7 +1065,4 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-> **Insert:** Screenshots of:
-> 1. `schema.prisma` file in editor
-> 2. `npx prisma migrate dev` output showing migration applied
-> 3. Sample Prisma Client query output
+[Insert Screenshot 12: Prisma migration output and schema.prisma]

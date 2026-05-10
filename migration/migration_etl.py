@@ -127,6 +127,7 @@ def migrate(csv_path, db_config):
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
+        cursor.execute("SET FOREIGN_KEY_CHECKS=0;")
         print("[OK] Database connection established")
     except mysql.connector.Error as e:
         print(f"[FAIL] Database connection failed: {e}")
@@ -199,8 +200,8 @@ def migrate(csv_path, db_config):
                     cursor.execute(
                         '''INSERT INTO appointments
                            (appt_id, patient_id, doc_id, appt_datetime,
-                            status, fee, discount, room_number, building_block)
-                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''',
+                            status, fee, discount, room_number, building_block, updated_at)
+                           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())''',
                         (
                             int(appt_id),           # appointment ID
                             patient_id,              # FK to patients table
