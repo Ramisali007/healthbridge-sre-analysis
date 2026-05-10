@@ -1,0 +1,166 @@
+// Prisma Schema for HealthBridge Hospital — Refactored Design
+// Part E/F/G: Database layer using Prisma ORM
+// Authors: Ramis Ali (22F-3703), Kamil Mohsin (22F-3713)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// Refactored Schema Models (3NF Compliant)
+// ============================================================
+
+model Patient {
+  patient_id            Int                @id @default(autoincrement())
+  full_name             String             @db.VarChar(255)
+  date_of_birth         DateTime           @db.Date
+  gender                PatientGender
+  email                 String?            @db.VarChar(255)
+  registered_doctor_id  Int?
+  total_visits          Int                @default(0)
+  last_bill_amount      Decimal            @default(0.00) @db.Decimal(12, 2)
+  notes                 String?            @db.Text
+  created_at            DateTime           @default(now())
+  updated_at            DateTime           @updatedAt
+
+  // Relations
+  registered_doctor     Doctor?            @relation(fields: [registered_doctor_id], references: [doctor_id])
+  phones                PatientPhone[]
+  addresses             PatientAddress[]
+  appointments          Appointment[]
+  billings              Billing[]
+
+  @@map("patients")
+}
+
+model PatientPhone {
+  phone_id     Int          @id @default(autoincrement())
+  patient_id   Int
+  phone_number String       @db.VarChar(20)
+  phone_type   PhoneType    @default(Primary)
+
+  // Relations
+  patient      Patient      @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade)
+
+  @@map("patient_phones")
+}
+
+model PatientAddress {
+  address_id    Int          @id @default(autoincrement())
+  patient_id    Int
+  address_line1 String       @db.VarChar(255)
+  address_line2 String?      @db.VarChar(255)
+  city          String       @db.VarChar(100)
+  province      String?      @db.VarChar(100)
+  postal_code   String?      @db.VarChar(10)
+  address_type  AddressType  @default(Home)
+
+  // Relations
+  patient       Patient      @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade)
+
+  @@map("patient_addresses")
+}
+
+model Doctor {
+  doctor_id      Int          @id
+  full_name      String       @db.VarChar(255)
+  speciality     String       @db.VarChar(255)
+  contact_no     String       @db.VarChar(255)
+  join_date      DateTime     @db.Date
+  salary_monthly Decimal      @db.Decimal(12, 2)
+  dept_id        Int?
+  is_active      Boolean      @default(true)
+
+  // Relations
+  department     Department?  @relation(fields: [dept_id], references: [dept_id])
+  patients       Patient[]
+  appointments   Appointment[]
+
+  @@map("doctors")
+}
+
+model Department {
+  dept_id   Int      @id
+  dept_nm   String   @db.VarChar(255)
+  hod_id    Int?     // Changed from plain name to FK (future enhancement)
+  budget    Decimal  @db.Decimal(15, 2)
+
+  // Relations
+  doctors   Doctor[]
+
+  @@map("departments")
+}
+
+model Appointment {
+  appt_id        Int              @id
+  patient_id     Int
+  doc_id         Int
+  appt_datetime  DateTime         @db.DateTime(0)
+  status         String           @db.Char(1)
+  fee            Decimal          @db.Decimal(12, 2)
+  discount       Decimal          @default(0.00) @db.Decimal(12, 2)
+  room_number    Int?
+  building_block String?          @db.VarChar(50)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+
+  // Relations
+  patient        Patient          @relation(fields: [patient_id], references: [patient_id])
+  doctor         Doctor           @relation(fields: [doc_id], references: [doctor_id])
+  status_ref     ApptStatusRef    @relation(fields: [status], references: [status_code])
+
+  @@map("appointments")
+}
+
+model ApptStatusRef {
+  status_code  String        @id @db.Char(1)
+  description  String        @db.VarChar(50)
+
+  // Relations
+  appointments Appointment[]
+
+  @@map("appt_status_ref")
+}
+
+model Billing {
+  bill_no     String    @id @db.VarChar(50)
+  pid         Int
+  services    String    @db.Text
+  svc_cost    Decimal   @db.Decimal(12, 2)
+  tax_pct     Decimal   @db.Decimal(5, 2)
+  paid        Decimal   @db.Decimal(12, 2)
+  created     DateTime  @db.DateTime(0)
+  created_by  String    @db.VarChar(255)
+
+  // Relations
+  patient     Patient   @relation(fields: [pid], references: [patient_id])
+
+  @@map("billing")
+}
+
+// ============================================================
+// Enums
+// ============================================================
+
+enum PatientGender {
+  Male
+  Female
+  NonBinary @map("Non-Binary")
+}
+
+enum PhoneType {
+  Primary
+  Secondary
+  Emergency
+}
+
+enum AddressType {
+  Home
+  Work
+  Other
+}

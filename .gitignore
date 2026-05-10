@@ -1,0 +1,32 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+out/
+build/
+.idea/
+*.iml
+
+# Node/Prisma
+node_modules/
+prisma/migrations/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# Reports (keep the PDF)
+# *.pdf

@@ -1,0 +1,18 @@
+{
+  "name": "healthbridge-prisma",
+  "version": "1.0.0",
+  "description": "Prisma ORM setup for HealthBridge Hospital legacy database refactoring",
+  "scripts": {
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:generate": "npx prisma generate",
+    "prisma:studio": "npx prisma studio"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "author": "Ramis Ali (22F-3703), Kamil Mohsin (22F-3713)",
+  "license": "ISC"
+}

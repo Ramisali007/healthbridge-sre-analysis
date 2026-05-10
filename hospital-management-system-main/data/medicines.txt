@@ -1,0 +1,5 @@
+M001,Paracetamol,ABC Pharma,Pain Relief,5.99,100,Pain relief medication
+M002,Amoxicillin,XYZ Pharma,Antibiotics,12.5,50,Antibiotic medication
+M003,Ibuprofen,MNO Pharma,Pain Relief,7.25,75,Anti-inflammatory medication
+M004,Cetirizine,PQR Pharma,Antihistamine,8.99,60,Allergy medication
+M1749978705381,Diclofenac,HealWell Pharma,Pain Relief,6.75,80,Used to reduce inflammation and pain
